@@ -1,0 +1,23 @@
+
+.date-picker{
+    width: 100%;
+    padding: 8px !important;
+    font-size: 16px !important;
+    border: 1px solid #979797 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    border-radius: 5px !important;
+    margin-top: 8px!important;
+    margin-bottom: 12px!important;
+    border-radius: 0px!important;
+}
+.date-picker > div::before ,.date-picker > div::after {
+    display: none!important;
+}
+.date-picker > p{
+    display: none!important;
+}
+.date-picker input{
+    padding: 0px!important;
+    border-radius: 0px!important;
+}
