@@ -6,7 +6,7 @@ import "../../resources/formControl.css";
 export default function CreateTask() {
     return (
         <Fragment>
-            <Header title={'Task Manager'} />
+            <Header title={'Task Manager'} showBackButton={true}/>
             <div
                 className={'box-shadow-default padding-16'}
                 style={{

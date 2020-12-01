@@ -9,7 +9,7 @@ function DatePickerCustom(props) {
             <DatePicker
                 autoOk={true}
                 placeholder={"Pick a date"}
-                value={props.value ? new Date(props.value): ""}
+                value={props.value ? new Date(props.value): new Date()}
                 className="date-picker"
                 onChange={(value, date) =>{
                     console.log(value);

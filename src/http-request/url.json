@@ -1,0 +1,6 @@
+{
+    "tasks":{
+      "prefix": "baseURL",
+      "url": "/tasks/"   
+    }
+  }

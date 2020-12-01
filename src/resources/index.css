@@ -6,6 +6,13 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.font-family-roboto {
+    font-family: 'Roboto';
+}
+
+.text-center {
+    text-align: center;
+}
 .z-index-high {
     z-index: 999;
 }
@@ -507,6 +514,10 @@ body {
         rgba(0, 0, 0, 0.16) 0px 20px 31px !important;
 }
 
+.text-decoration-none {
+    text-decoration: none !important;
+}
+
 .border-radius-none {
     border-radius: 0px !important;
 }
@@ -607,8 +618,8 @@ form .template1 textarea {
     border-radius: 0px;
 }
 
-form .template1 input{
-    border-radius: 0px!important;
+form .template1 input {
+    border-radius: 0px !important;
 }
 
 form .template1 label {
@@ -743,7 +754,208 @@ form .floatingTemplate textarea {
     border-radius: 0px;
 }
 
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.display-none {
+    display: none;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-inline {
+    display: inline;
+}
+
+.display-inline-block {
+    display: inline-block;
+}
+
+.display-table {
+    display: table;
+}
+
+.display-table-cell {
+    display: table-cell !important;
+}
+
+.display-inline-table {
+    display: inline-table;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+.color-white{
+    color: white!important;
+}
+.float-right{
+    float: right;
+}
+.border-radius-circle{
+    border-radius: 50px
+}
+
+.ribbon {
+    position: absolute;
+    top: 0px;
+    padding: 0 28px;
+    z-index: 1;
+    font-size: 16px;
+    line-height: 2.5;
+    right: -6px;
+}
+
+.ribbon .ribbon-text-before {
+    content: '';
+    font-size: 0.5em;
+    position: absolute;
+    border-style: solid;
+    border-color: #fdffae transparent transparent #fdffae;
+    top: 4.6em;
+    right: 0;
+    border-width: 1.4em -0.2em 1em 1.4em;
+    z-index: -1;
+    opacity: 0.64;
+}
+
+.ribbon .ribbon-text-after {
+    content: '';
+    font-size: 0.5em;
+    position: absolute;
+    height: 0;
+    right: 0;
+    border: 2em solid #fdffae;
+    z-index: -1;
+    top: 0.6em;
+    border-top-width: 2em;
+    border-left-color: transparent;
+    left: -1.4em;
+}
+
+.border-light-grey {
+    border: 1px solid #dddddd !important;
+}
+
 @media screen and (max-width: 767px) {
+    .padding-32-xs {
+        padding: 32px !important;
+    }
+    .padding-12-xs {
+        padding: 12px !important;
+    }
+    .padding-16-xs {
+        padding: 16px !important;
+    }
+    .padding-bottom-16-xs {
+        padding-bottom: 16px;
+    }
+    .padding-8-xs {
+        padding: 8px !important;
+    }
+    .padding-4-xs {
+        padding: 4px !important;
+    }
+    .padding-left-4-xs {
+        padding-left: 4px !important;
+    }
+    .padding-left-8-xs {
+        padding-left: 8px !important;
+    }
+    .padding-left-none-xs {
+        padding-left: 0 !important;
+    }
+    .padding-right-4-xs {
+        padding-right: 4px !important;
+    }
+    .padding-right-8-xs {
+        padding-right: 8px !important;
+    }
+    .padding-right-none-xs {
+        padding-right: 0 !important;
+    }
+    .padding-top-none-xs {
+        padding-top: 0 !important;
+    }
+    .padding-top-4-xs {
+        padding-top: 4px !important;
+    }
+    .padding-top-8-xs {
+        padding-top: 8px !important;
+    }
+    .padding-bottom-8-xs {
+        padding-bottom: 8px !important;
+    }
+    .padding-left-16-xs {
+        padding-left: 16px !important;
+    }
+    .padding-right-16-xs {
+        padding-right: 16px !important;
+    }
+    .padding-bottom-none-xs {
+        padding-bottom: 0 !important;
+    }
+    .padding-left-12-xs {
+        padding-left: 12px !important;
+    }
+    .padding-right-12-xs {
+        padding-right: 12px !important;
+    }
+    .padding-left-20-xs {
+        padding-left: 20px !important;
+    }
+    .padding-right-20-xs {
+        padding-right: 20px !important;
+    }
+    .padding-left-24-xs {
+        padding-left: 24px;
+    }
+    .padding-right-24-xs {
+        padding-right: 24px;
+    }
+    .padding-24-xs {
+        padding: 24px !important;
+    }
+    .padding-top-40-xs {
+        padding-top: 40px !important;
+    }
+    .padding-left-40-xs {
+        padding-left: 40px !important;
+    }
+    .padding-right-40-xs {
+        padding-right: 40px !important;
+    }
+    .padding-top-20-xs {
+        padding-top: 20px !important;
+    }
+    .padding-top-28-xs {
+        padding-top: 28px !important;
+    }
+    .padding-left-28-xs {
+        padding-left: 28px;
+    }
+    .padding-right-28-xs {
+        padding-right: 28px;
+    }
+    .padding-left-32-xs {
+        padding-left: 32px !important;
+    }
+    .padding-right-32-xs {
+        padding-right: 32px !important;
+    }
+    .padding-bottom-40-xs {
+        padding-bottom: 40px !important;
+    }
+    .padding-40-xs {
+        padding: 40px !important;
+    }
     .margin-top-none-xs {
         margin-top: 0px !important;
     }

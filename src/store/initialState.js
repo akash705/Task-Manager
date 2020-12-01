@@ -1,4 +1,6 @@
 export default {
+    hasFetchedTasks:false,
+    hasFetchedUsers:false,
     users:{
         1:0,
         2:1,
@@ -47,16 +49,23 @@ export default {
     ],
     tasks: [
         {
-            message: 'Hello There',
+            message: 'First',
             due_date: new Date(),
             priority: 1,
             assigned_to: 1,
             id: 1,
         },
         {
-            message: 'SEcond Message',
+            message: 'Second Message',
             due_date: new Date(),
-            priority: 1,
+            priority: 2,
+            assigned_to: 1,
+            id: 2,
+        },
+        {
+            message: 'Third Message',
+            due_date: new Date(),
+            priority: 3,
             assigned_to: 1,
             id: 2,
         },

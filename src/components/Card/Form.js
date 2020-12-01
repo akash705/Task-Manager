@@ -1,5 +1,10 @@
+import moment from 'moment';
 import React, { useState , useEffect} from 'react';
 import Form from 'react-jsonschema-form';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { createTask } from '../../store/actionCreators';
+import { CREATE_TASK } from '../../store/actions';
 import DatePickerCustom from '../FormControl/DatePicker';
 
 function initialState(userPreferenceData={}){
@@ -13,35 +18,50 @@ function initialState(userPreferenceData={}){
     return data;
 }
 
-let initialFormSchema = {
-    title: '',
-    type: 'object',
-    properties: {
-        message: {
-            title: 'Message',
-            type: 'string',
-            placeholder: 'Enter a message',
+let initialFormSchema = (usersList=[])=>{
+    let userObj={
+        enum:[],
+        enumNames: []
+    }
+    if(usersList.length){
+        // enum: ['', 'Akash', 'Vikas', 'Sharma'],
+        // enumNames: ['Select a User', '1', '2', '3'],
+        usersList.forEach(({id, name})=>{
+            userObj.enum.push(id);
+            userObj.enumNames.push(name);
+        })
+    }
+    let obj = {
+        title: '',
+        type: 'object',
+        properties: {
+            message: {
+                title: 'Message',
+                type: 'string',
+                placeholder: 'Enter a message',
+            },
+            due_date: {
+                type: 'string',
+                title: 'Due Date',
+            },
+            priority: {
+                type: 'string',
+                title: 'Priority',
+                enum: ['', 'High', 'Medium', 'Low'],
+                enumNames: ['Select a value', '1', '2', '3'],
+                default: 'High',
+            },
+            assigned_to: {
+                type: 'string',
+                title: 'Assigned To',
+                default: '',
+                ...userObj
+            },
         },
-        due_date:{
-            type: 'string',
-            title: 'Due Date'
-        },
-        priority: {
-            type: 'string',
-            title: 'Priority',
-            enum: ['', 'High','Medium','Low'],
-            enumNames: ['Select a value', '1', '2', '3'],
-            default: 'High',
-        },
-        assigned_to: {
-            type: 'string',
-            title: 'Priority',
-            enum: ['', 'Akash','Vikas','Sharma'],
-            enumNames: ['Select a User', '1', '2', '3'],
-            default: 'High',
-        }
-    },
-};
+    };
+    return obj;
+}
+
 let initialFormUISchema = {
     message: {
         classNames: 'template1 margin-bottom-16',
@@ -71,11 +91,13 @@ function getWidget(){
 function CreateTaskForm(props={}) {
     let {
         classes: { backgroundPrimaryDarkColor = '' } = {},
-        userPreferenceData
+        userPreferenceData,
+        createTask,
+        usersList
     } = props;
     const [formData, setFormData] = useState({});
     const [widgets] = useState(()=>getWidget());
-    const [formSchema] = useState(initialFormSchema);
+    const [formSchema,setFormSchema] = useState(()=>initialFormSchema(usersList));
     const [formUISchema] = useState(initialFormUISchema);
     const [fields] = useState(() => initialFields(props));
     const [loader, setLoader] = useState(false);
@@ -84,7 +106,13 @@ function CreateTaskForm(props={}) {
         let data = initialState(userPreferenceData);
         console.log("data",data);
         setFormData(data);
-    }, [userPreferenceData])
+    }, [userPreferenceData]);
+
+    useEffect(() => {
+        let state = initialFormSchema(usersList);
+        console.log('users list added')
+        setFormSchema(state);
+    }, [usersList])
 
 
     function onChange(form) {
@@ -116,10 +144,20 @@ function CreateTaskForm(props={}) {
     }
 
     function onSubmit(form) {
-        let { onSubmit, screenId } = props;
+        let { onSubmit } = props;
         setLoader(true);
-        let formData = form.formData;
-        console.log(formData)
+        let formData = {
+            ...form.formData,
+        };
+        if(form.formData.due_date){
+            formData.due_date = moment(form.formData.due_date).format("YYYY-MM-DD HH:mm:ss")
+        }
+        createTask(formData,({status})=>{
+            setLoader(false);
+            if(status){
+                props.history.replace('/');
+            }
+        })
         return form;
     }
 
@@ -160,4 +198,20 @@ function CreateTaskForm(props={}) {
     );
 }
 
-export default CreateTaskForm;
+
+let mapsToProps = (
+    { usersList=[] } = {},
+) => {
+    return {
+        usersList
+    };
+};
+
+function dispatchToProps(dispatch){
+    return {
+        createTask: ( payload , cb)=>dispatch(createTask({type:CREATE_TASK , cb: cb , payload})),
+    }
+}
+
+
+export default connect(mapsToProps,dispatchToProps)(withRouter(CreateTaskForm));

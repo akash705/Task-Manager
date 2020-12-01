@@ -1,10 +1,11 @@
 import { Component } from 'react'
+import CreateTask from './components/CreateTask';
+import Home from "./components/Home";
+import "font-awesome/css/font-awesome.min.css"
 import {
   BrowserRouter as Router,
   Route
 } from "react-router-dom";
-import CreateTask from './components/CreateTask';
-import Home from "./components/Home";
 class App extends Component {
   constructor(props) {
     super(props);
