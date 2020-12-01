@@ -54,6 +54,12 @@ function createTask({cb, payload}) {
     return async function (dispatch){
         let formData = objectToFormData(payload)
         let { data: { status = '' } = {} } = await repo.post("create",formData,).catch(err=>err);
+        if (status && String(status).toLowerCase() === 'success') {
+            dispatch({
+                type: CREATE_TASK,
+                payload: payload
+            })
+        }
         if(cb){
             cb({
                 status: status && String(status).toLowerCase() === 'success' ? true : false 
@@ -81,11 +87,16 @@ function deleteTask({cb, payload}) {
 }
 
 
-function updateTask(payload) {
-    return {
-        type: UPDATE_TASK,
-        payload: payload,
-    };
+function updateTask({cb, payload}) {
+    return async function (dispatch){
+        let formData = objectToFormData(payload)
+        let { data: { status = '' } = {} } = await repo.post("update",formData,).catch(err=>err);
+        if(cb){
+            cb({
+                status: status && String(status).toLowerCase() === 'success' ? true : false 
+            });
+        }
+    }
 }
 
 

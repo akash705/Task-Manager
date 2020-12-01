@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import {
+    Button,
     Card,
+    CardActions,
     CardContent,
 } from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
@@ -8,6 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import { connect } from 'react-redux';
 import { deleteTask as removeTask } from '../../store/actionCreators';
 import moment from "moment";
+import { withRouter } from 'react-router-dom';
 
 function getPriorityText(priority){
     let obj = {
@@ -29,8 +32,15 @@ function getPriorityText(priority){
     return obj;
 }
 
-function TaskCard({ deleteTask, message, users, id , due_date , priority , assigned_to } = {}) {
+function TaskCard({ deleteTask, message, users, id , due_date , priority , assigned_to , history } = {}) {
     let { text:ribbonText='' , class:ribbonClass }  = getPriorityText(priority);
+    
+    function editTask(){
+        history.push("/create",{
+            id: id
+        })
+    }
+
     return (
         <Fragment>
             <div
@@ -74,6 +84,11 @@ function TaskCard({ deleteTask, message, users, id , due_date , priority , assig
                             </div>
                         </CardContent>
                     </div>
+                    <CardActions>
+                        <Button onClick={editTask} >
+                            Edit
+                        </Button>
+                    </CardActions>
                 </Card>
             </div>
         </Fragment>
@@ -97,4 +112,4 @@ function dispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapsToProps, dispatchToProps)(TaskCard);
+export default connect(mapsToProps, dispatchToProps)(withRouter(TaskCard));

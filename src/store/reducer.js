@@ -1,5 +1,5 @@
 import initialState from './initialState';
-import { DELETE_TASK, FETCH_ALL_TASKS, FETCH_ALL_USERS } from "./actions";
+import { CREATE_TASK, DELETE_TASK, FETCH_ALL_TASKS, FETCH_ALL_USERS } from "./actions";
 
 
 let reducer = (state=initialState, { type , payload }) => {
@@ -32,10 +32,21 @@ let reducer = (state=initialState, { type , payload }) => {
                 ...state,
                 users: users,
                 usersList: usersList
-            }
+            };
+            break;
         }
+        case CREATE_TASK:{
+            let updatedTasks = [...tasks,payload];
+            console.log('create task before ----', state);
+            state = {
+                ...state,
+                tasks: updatedTasks
+            }
+            console.log('create task after ----', state);
+        }
+        default:
+            break;
     }
-
     return state;
 };
 

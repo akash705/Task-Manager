@@ -20,7 +20,7 @@ function notFound(){
                 No Task Found
             </div>
             <Link to={`/create`} className={'text-decoration-none margin-top-8'}>
-                <Button variant="flag" className={'border-none text-decoration-none'} disableRipple={true}>
+                <Button className={'border-none text-decoration-none'} disableRipple={true}>
                     Add Tasks
                 </Button>
             </Link>
@@ -34,7 +34,7 @@ function getLayout(tasks){
         <Grid container>
             {tasks.map(
                 ({ message, due_date, priority, assigned_to, id } = {}) => (
-                    <Grid xs={12} sm={6} lg={4} item key={message}>
+                    <Grid xs={12} sm={6} lg={4} item key={id}>
                         <div
                             className={
                                 'padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12'

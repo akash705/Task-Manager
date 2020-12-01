@@ -1,18 +1,25 @@
 import moment from 'moment';
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect, useRef} from 'react';
 import Form from 'react-jsonschema-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createTask } from '../../store/actionCreators';
-import { CREATE_TASK } from '../../store/actions';
+import { createTask, updateTask } from '../../store/actionCreators';
+import { CREATE_TASK, UPDATE_TASK } from '../../store/actions';
 import DatePickerCustom from '../FormControl/DatePicker';
 
 function initialState(userPreferenceData={}){
+    let {
+        message,
+        due_date,
+        priority,
+        assigned_to
+    } = userPreferenceData;
+
     let data = {
-        message: '',
-        due_date: '',
-        priority: '',
-        assigned_to: ''
+        message,
+        due_date,
+        priority,
+        assigned_to,
     };
 
     return data;
@@ -20,14 +27,14 @@ function initialState(userPreferenceData={}){
 
 let initialFormSchema = (usersList=[])=>{
     let userObj={
-        enum:[],
-        enumNames: []
+        enum:[''],
+        enumNames: ['Select a User']
     }
     if(usersList.length){
         // enum: ['', 'Akash', 'Vikas', 'Sharma'],
         // enumNames: ['Select a User', '1', '2', '3'],
         usersList.forEach(({id, name})=>{
-            userObj.enum.push(id);
+            userObj.enum.push(String(id));
             userObj.enumNames.push(name);
         })
     }
@@ -47,9 +54,9 @@ let initialFormSchema = (usersList=[])=>{
             priority: {
                 type: 'string',
                 title: 'Priority',
-                enum: ['', 'High', 'Medium', 'Low'],
-                enumNames: ['Select a value', '1', '2', '3'],
-                default: 'High',
+                enum: ['Select a value', '1', '2', '3'],
+                enumNames: ['', 'High', 'Medium', 'Low'],
+                default: '',
             },
             assigned_to: {
                 type: 'string',
@@ -91,9 +98,13 @@ function getWidget(){
 function CreateTaskForm(props={}) {
     let {
         classes: { backgroundPrimaryDarkColor = '' } = {},
-        userPreferenceData,
         createTask,
-        usersList
+        updateTask,
+        usersList,
+        location:{
+            state:{id:taskEditId}={},
+        }={},
+        tasks
     } = props;
     const [formData, setFormData] = useState({});
     const [widgets] = useState(()=>getWidget());
@@ -101,16 +112,27 @@ function CreateTaskForm(props={}) {
     const [formUISchema] = useState(initialFormUISchema);
     const [fields] = useState(() => initialFields(props));
     const [loader, setLoader] = useState(false);
+    const editTaskDetail = useRef(null)
 
+    // did mount
     useEffect(() => {
-        let data = initialState(userPreferenceData);
-        console.log("data",data);
-        setFormData(data);
-    }, [userPreferenceData]);
+        if(taskEditId){
+            let oldData = tasks.find(({id})=>String(id) === String(taskEditId));
+            let data = initialState(oldData);
+            editTaskDetail.current = data;
+            setFormData(data);
+        }  
+    }, [])
+
+    // did mount
+
+    // useEffect(() => {
+    //     let data = initialState(userPreferenceData);
+    //     setFormData(data);
+    // }, [userPreferenceData]);
 
     useEffect(() => {
         let state = initialFormSchema(usersList);
-        console.log('users list added')
         setFormSchema(state);
     }, [usersList])
 
@@ -152,7 +174,11 @@ function CreateTaskForm(props={}) {
         if(form.formData.due_date){
             formData.due_date = moment(form.formData.due_date).format("YYYY-MM-DD HH:mm:ss")
         }
-        createTask(formData,({status})=>{
+        if(editTaskDetail.current){
+            formData.taskid = taskEditId
+        }
+        let fn = editTaskDetail.current ? updateTask : createTask;
+        fn(formData,({status})=>{
             setLoader(false);
             if(status){
                 props.history.replace('/');
@@ -200,16 +226,18 @@ function CreateTaskForm(props={}) {
 
 
 let mapsToProps = (
-    { usersList=[] } = {},
+    { usersList=[] , tasks=[] } = {},
 ) => {
     return {
-        usersList
+        usersList,
+        tasks
     };
 };
 
 function dispatchToProps(dispatch){
     return {
         createTask: ( payload , cb)=>dispatch(createTask({type:CREATE_TASK , cb: cb , payload})),
+        updateTask: ( payload , cb)=>dispatch(updateTask({type:UPDATE_TASK , cb: cb , payload})),
     }
 }
 
