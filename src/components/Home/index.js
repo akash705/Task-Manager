@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
-import TaskCard from '../Card';
+import TaskCard from '../Card/TaskCard';
 import Header from '../Header';
 
 function notFound(){

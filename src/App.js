@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Route
 } from "react-router-dom";
+import CreateTask from './components/CreateTask';
 import Home from "./components/Home";
 class App extends Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class App extends Component {
     return (
       <div>
         <Router>
-            <Route path={'/'} component={(props) => <Home {...props} />} />
+            <Route path={'/'} exact component={(props) => <Home {...props} />} />
+            <Route path={'/create'} exact component={(props) => <CreateTask {...props} />} />
         </Router>
       </div>
     );

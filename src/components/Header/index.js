@@ -6,11 +6,11 @@ export default function index({title}={}) {
         <div>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" >
-                        {title}
-                    </Typography>
+                    <div>
+                        <span className={'font-family-roboto font-20 font-18-xs '}>{title}</span>
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>
-    )
+    );
 }
