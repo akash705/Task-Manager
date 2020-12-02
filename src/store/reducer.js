@@ -27,7 +27,6 @@ let reducer = (state=initialState, { type , payload }) => {
             usersList.forEach(({id},index)=>{
                 users[id] = index;
             })
-            console.log({users})
             state={
                 ...state,
                 users: users,
@@ -53,7 +52,8 @@ let reducer = (state=initialState, { type , payload }) => {
             state = {
                 ...state,
                 tasks: updatedTasks
-            }
+            };
+            break;
         }
         default:
             break;

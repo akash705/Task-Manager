@@ -1,1 +1,1 @@
-Project Details will be filled
+Project Information

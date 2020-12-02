@@ -9,7 +9,6 @@ import {
 import { connect } from 'react-redux';
 import { FETCH_ALL_TASKS, FETCH_ALL_USERS } from './store/actions';
 import { fetchAllTasks, fetchAllUsers } from './store/actionCreators';
-import Preloader from "./resources/svg/preloader.svg";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -43,7 +42,9 @@ class App extends Component {
   }
 
   render() {
-
+    if(this.state.hasError){
+      return "App has caught an error .";
+    }
     return (
       <div>
         <ToastContainer className={'color-black font-family-poppins'} />
