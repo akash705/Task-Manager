@@ -3,6 +3,7 @@ import React, { useState , useEffect, useRef} from 'react';
 import Form from 'react-jsonschema-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { createTask, updateTask } from '../../../store/actionCreators';
 import { CREATE_TASK, UPDATE_TASK } from '../../../store/actions';
 import DatePickerCustom from '../../FormControl/DatePicker';
@@ -71,7 +72,8 @@ let initialFormSchema = (usersList=[])=>{
 
 let initialFormUISchema = {
     message: {
-        classNames: 'template1 margin-bottom-16',
+        classNames: 'template1 margin-bottom-16 ',
+        "ui:widget": "textarea"
     },
     priority: {
         classNames: 'template1 margin-bottom-16',
@@ -97,13 +99,15 @@ function getWidget(){
 }
 function CreateTaskForm(props={}) {
     let {
-        classes: { backgroundPrimaryDarkColor = '' } = {},
         createTask,
         updateTask,
         usersList,
-        location:{
-            state:{id:taskEditId}={},
+        match:{
+            params:{
+                taskId: taskEditId
+            }={}
         }={},
+        history={},
         tasks
     } = props;
     const [formData, setFormData] = useState({});
@@ -118,10 +122,15 @@ function CreateTaskForm(props={}) {
     useEffect(() => {
         if(taskEditId){
             let oldData = tasks.find(({id})=>String(id) === String(taskEditId));
-            let data = initialState(oldData);
-            editTaskDetail.current = data;
-            setFormData(data);
-        }  
+            if(oldData){
+                let data = initialState(oldData);
+                editTaskDetail.current = data;
+                setFormData(data);
+            }else {
+                history.replace("/create");
+                return toast(`Task not found !!!`);
+            }
+        }
     }, [])
 
     // did mount
@@ -153,15 +162,15 @@ function CreateTaskForm(props={}) {
         if(!message){
             errors.message.addError(required);
         }
-        if(!assigned_to){
-            errors.assigned_to.addError(required);
-        }
-        if(!due_date){
-            errors.due_date.addError(required);
-        }
-        if(!priority){
-            errors.priority.addError(required);
-        }
+        // if(!assigned_to){
+        //     errors.assigned_to.addError(required);
+        // }
+        // if(!due_date){
+        //     errors.due_date.addError(required);
+        // }
+        // if(!priority){
+        //     errors.priority.addError(required);
+        // }
         return errors;
     }
 
@@ -208,7 +217,7 @@ function CreateTaskForm(props={}) {
                     <button
                         type="submit"
                         disabled={loader}
-                        className={`width-100 border-none font-family-poppins color-white font-18 font-16-xs padding-left-16 padding-right-16 padding-top-8 padding-bottom-8 margin-top-8 cursor-pointer ${backgroundPrimaryDarkColor} border-radius-none`}>
+                        className={`width-100 border-none font-family-poppins color-white font-18 font-16-xs padding-left-16 padding-right-16 padding-top-8 padding-bottom-8 margin-top-8 cursor-pointer  border-radius-none ${loader ? 'theme-primary-background-light': 'theme-primary-background'} border-none`}>
                         Create Task{' '}
                         {loader ? (
                             <i

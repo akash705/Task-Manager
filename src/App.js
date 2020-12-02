@@ -46,7 +46,7 @@ class App extends Component {
         <ToastContainer className={'color-black font-family-poppins'} />
         <Router>
             <Route path={'/'} exact component={(props) => <Home {...props} isLoading={this.state.loader} />} />
-            <Route path={'/create'} exact component={(props) => <CreateTask {...props} isLoading={this.state.loader} />} />
+            <Route path={'/create/:taskId?'} component={(props) => <CreateTask {...props} isLoading={this.state.loader} />} />
         </Router>
       </div>
     );

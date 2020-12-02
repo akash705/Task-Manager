@@ -1,13 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
 body {
     margin: 0;
-    font-family: 'Roboto', 'Open Sans';
+    font-family: 'Poppins', 'Open Sans';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-.font-family-roboto {
-    font-family: 'Roboto';
+/* theme  */
+
+.theme-primary-background{
+    background-color:  #01579b !important;
+}
+.theme-primary-background-light{
+    background-color: #4f83cc !important;
+}
+.theme-primary-background-dark{
+    background-color: #002f6c !important;
+}
+.theme-color-dark{
+    color: #002f6c !important;
+}
+
+
+/* theme  */
+
+
+.font-family-poppins {
+    font-family: 'poppins';
 }
 
 .text-center {
@@ -111,7 +131,7 @@ body {
 }
 
 .padding-left-24 {
-    padding-left: 24px;
+    padding-left: 24px !important;
 }
 
 .padding-left-28 {
@@ -127,7 +147,7 @@ body {
 }
 
 .padding-right-24 {
-    padding-right: 24px;
+    padding-right: 24px !important;
 }
 
 .padding-right-28 {
@@ -353,6 +373,9 @@ body {
 .margin-right-32 {
     margin-right: 32px;
 }
+.margin-right-40 {
+    margin-right: 40px;
+}
 
 .margin-right-8 {
     margin-right: 8px;
@@ -486,6 +509,10 @@ body {
     margin: 0;
 }
 
+.white-space-nowrap{
+    white-space: nowrap;
+}
+
 .box-shadow-default {
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
     -moz-box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px,
@@ -532,6 +559,15 @@ body {
 .border-radius-none {
     border-radius: 0px !important;
 }
+.border-radius-circle {
+    border-radius: 50px !important;
+}
+.border-none{
+    border: none!important
+}
+.background-none{
+    background: none!important;
+}
 
 .close-modal-icon {
     background-color: #ffffff !important;
@@ -550,6 +586,19 @@ body {
 
 .font-bold{
     font-weight: bold !important
+}
+
+.my-masonry-grid {
+    display: flex;
+    width: auto; 
+}
+  
+.my-masonry-grid_column {
+    background-clip: padding-box; 
+}
+
+.my-masonry-grid_column > div {
+    background: #fff; 
 }
 
 .font-8 {
@@ -604,6 +653,10 @@ body {
     font-size: 32px !important;
 }
 
+.Toastify__toast-body {
+    color: black!important
+}
+
 form fieldset {
     border: 0;
     padding: 0;
@@ -624,6 +677,7 @@ form .template1 select {
 form .template1 input[type='text'],
 form .template1 input[type='number'],
 form .template1 textarea {
+    font-family: 'Poppins';
     width: 100%;
     padding: 8px;
     font-size: 16px;
@@ -631,6 +685,7 @@ form .template1 textarea {
     outline: none;
     box-sizing: border-box;
     border-radius: 0px;
+    resize:none!important;
 }
 
 form .template1 input {
@@ -867,6 +922,32 @@ form .floatingTemplate textarea {
     left: -1.4em;
 }
 
+.ribbon .ribbon-text-before.ribbon-high-priority{
+    border-color: #f4511e transparent transparent #f4511e;
+}
+.ribbon .ribbon-text-after.ribbon-high-priority{
+    border: 2em solid #f4511e;
+    border-left-color: transparent;
+}
+
+.ribbon .ribbon-text-before.ribbon-medium-priority{
+    border-color: #388e3c transparent transparent #388e3c;
+}
+.ribbon .ribbon-text-after.ribbon-medium-priority{
+    border: 2em solid #388e3c;
+    border-left-color: transparent;
+}
+
+.ribbon .ribbon-text-before.ribbon-low-priority{
+    border-color: #ffeb3b transparent transparent #ffeb3b;
+}
+.ribbon .ribbon-text-after.ribbon-low-priority{
+    border: 2em solid #ffeb3b;
+    border-left-color: transparent;
+}
+
+
+
 .border-light-grey {
     border: 1px solid #dddddd !important;
 }
@@ -1031,8 +1112,17 @@ form .floatingTemplate textarea {
     .margin-right-12-xs {
         margin-right: 12px;
     }
+    .margin-right-24-xs {
+        margin-right: 24px;
+    }
+    .margin-right-32-xs {
+        margin-right: 32px;
+    }
     .margin-bottom-12-xs {
         margin-bottom: 12px !important;
+    }
+    .margin-bottom-16-xs {
+        margin-bottom: 16px !important;
     }
     .margin-right-32-xs {
         margin-right: 32px !important;

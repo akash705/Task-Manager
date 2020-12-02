@@ -9,6 +9,7 @@ import PageWrapper from '../components/PageWrapper';
 import SearchBar from '../components/SearchBar';
 import Header from '../Header';
 import NotFoundIcon from "../../resources/svg/not-found.svg";
+import Masonry from "react-masonry-css"
 
 function notFound() {
     return (
@@ -19,6 +20,7 @@ function notFound() {
                 top: '50%',
                 width: '100%',
                 textAlign: 'center',
+                transform: "translate(0,-50%)"
             }}>
             <div className={`margin-bottom-12 font-16 `}>
                 <div className={'width-100 text-center'}>
@@ -37,7 +39,7 @@ function notFound() {
                 to={`/create`}
                 className={'text-decoration-none margin-top-8'}>
                 <Button
-                    className={'border-none text-decoration-none'}
+                    className={'border-none text-decoration-none theme-primary-background color-white padding-left-24 padding-right-24 border-radius-none'}
                     disableRipple={true}>
                     Add Tasks
                 </Button>
@@ -45,13 +47,21 @@ function notFound() {
         </div>
     );
 }
-
+const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 2,
+    500: 1,
+};
 function getLayout(tasks) {
     return (
-        <Grid container>
+        <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column">
             {tasks.map(
                 ({ message, due_date, priority, assigned_to, id } = {}) => (
-                    <Grid xs={12} sm={6} lg={4} item key={id}>
+                    <div key={id} className={` margin-top-8-xs margin-bottom-16-xs`}>
                         <div
                             className={
                                 'padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12'
@@ -64,10 +74,10 @@ function getLayout(tasks) {
                                 id={id}
                             />
                         </div>
-                    </Grid>
+                    </div>
                 )
             )}
-        </Grid>
+            </Masonry>
     );
 }
 
@@ -103,12 +113,12 @@ function Home({ tasks = [] , isLoading }) {
     return (
             <div>
                 <div className={``}>
-                    <Header title={'Task Manager'} showCreateButton={!isLoading} />
+                    <Header title={'Task Manager'} showCreateTaskButton={!isLoading && tasks && tasks.length} showReloadButton={true} />
                 </div>
                 <PageWrapper showLoader={isLoading}>
                     <div className={'padding-24 padding-16-xs'}>
                         <div>
-                            {tasks ? (
+                            {tasks && tasks.length ? (
                                 <div className={'padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12'}>
                                     <SearchBar
                                         value={inputValue}
@@ -121,7 +131,7 @@ function Home({ tasks = [] , isLoading }) {
                         <div>{component}</div>
                     </div>
                 </PageWrapper>  
-                <div className={"position-fixed bottom-0 right-0 font-12 "}>
+                <div className={"position-fixed bottom-0 right-0 font-12 display-none-xs"}>
                     Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
                 </div>
             </div>

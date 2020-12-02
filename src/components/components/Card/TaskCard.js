@@ -11,6 +11,7 @@ import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Close from '@material-ui/icons/Close';
+import Edit from '@material-ui/icons/Edit';
 import moment from "moment";
 import Fab from '@material-ui/core/Fab';
 
@@ -35,12 +36,15 @@ function getPriorityText(priority){
     return obj;
 }
 
-function TaskCard({ deleteTask, message, users, id , due_date , priority , assigned_to , history } = {}) {
+function TaskCard({ deleteTask, message, userData, id , due_date , priority , assigned_to , history } = {}) {
     let { text:ribbonText='' , class:ribbonClass }  = getPriorityText(priority);
     const [loader, setLoader] = useState(false);
     
     function editTask(){
-        history.push("/create",{
+        if(loader){
+            return  toast("Request is in process !!!");
+        }
+        history.push(`/create/${id}`,{
             id: id
         })
     }
@@ -68,19 +72,27 @@ function TaskCard({ deleteTask, message, users, id , due_date , priority , assig
                     style={{
                         minHeight: '200px',
                     }}
-                    className={`box-shadow-default border-radius-none text-transform-capitalize padding-top-20 font-family-roboto`}>
-                    <div
-                        className={`ribbon text-center ${ribbonClass} `}
-                        style={{
-                            minWidth: '75px',
-                            width: '75px',
-                            maxWidth: '75px',
-                            zIndex: 4,
-                        }}>
-                        <span className="ribbon-text-before" />
-                        <span className={'font-14'}>{ ribbonText }</span>
-                        <span className="ribbon-text-after" />
-                    </div>
+                    className={`box-shadow-default border-radius-none text-transform-capitalize padding-top-12 font-family-poppins`}>
+                    {ribbonText ? (
+                        <div
+                            className={`ribbon text-center `}
+                            style={{
+                                minWidth: '75px',
+                                width: '75px',
+                                maxWidth: '75px',
+                                zIndex: 4,
+                            }}>
+                            <span
+                                className={`ribbon-text-before ${ribbonClass}  `}
+                            />
+                            <span className={'font-14 color-white'}>
+                                {ribbonText}
+                            </span>
+                            <span
+                                className={`ribbon-text-after ${ribbonClass} `}
+                            />
+                        </div>
+                    ) : null}
                     <div>
                         <Fab
                             className="close-modal-icon position-absolute box-shadow-none border-light-grey"
@@ -88,23 +100,79 @@ function TaskCard({ deleteTask, message, users, id , due_date , priority , assig
                             <Close />
                         </Fab>
 
-                        <CardContent>
-                            <div className={`font-18 font-16-xs margin-bottom-4`}>
-                                {moment(due_date).diff(moment(),"day") } days left
+                        <CardContent className={'padding-none'}>
+                            <div
+                                className={`font-18 font-16-xs margin-bottom-4 font-bold padding-left-24 padding-right-24 padding-left-16-xs padding-right-16-xs`}>
+                                {due_date ? (
+                                    <span>
+                                        {moment(due_date).diff(moment(), 'day')}{' '}
+                                        days left
+                                    </span>
+                                ) : (
+                                    <span>&nbsp;</span>
+                                )}
                             </div>
-                            <div className={`font-16 font-14-xs margin-top-4 margin-bottom-4`}>
-                                {message}
+                            <div
+                                className={`margin-top-12 margin-bottom-8  padding-left-24 padding-right-24 padding-left-16-xs padding-right-16-xs display-flex`}>
+                                <div className={`font-14 white-space-nowrap`}>
+                                    Message :
+                                </div>
+                                <div
+                                    className={` font-14 margin-left-8`}
+                                    style={{
+                                        minHeight: '75px',
+                                    }}>
+                                    {message}
+                                </div>
                             </div>
-                            <div className={`font-16 font-14-xs margin-top-4 margin-bottom-4`}>
-                                Assigned to : {assigned_to}
-                            </div>
+                            {userData ? (
+                                <div
+                                    className={`font-14  margin-top-12 margin-bottom-12 padding-left-24 padding-right-24 padding-left-16-xs padding-right-16-xs`}>
+                                    <div
+                                        className={
+                                            'margin-top-8 margin-bottom-8'
+                                        }>
+                                        Assigned to :
+                                    </div>
+                                    {userData ? (
+                                        <div
+                                            className={
+                                                'display-flex align-items-center'
+                                            }>
+                                            <div>
+                                                <img
+                                                    src={userData.picture}
+                                                    alt={userData.name}
+                                                    className={
+                                                        'border-radius-circle'
+                                                    }
+                                                    style={{
+                                                        height: '75px',
+                                                    }}
+                                                />
+                                            </div>
+                                            <div
+                                                className={
+                                                    'margin-left-12 font-16 font-bold'
+                                                }>
+                                                {userData.name}
+                                            </div>
+                                        </div>
+                                    ) : null}
+                                </div>
+                            ) : null}
+                            <Fab
+                                className="theme-color-dark box-shadow-none background-none border-light-grey position-absolute"
+                                size="small"
+                                onClick={editTask}
+                                style={{
+                                    right: '16px',
+                                    bottom: '16px',
+                                }}>
+                                <Edit />
+                            </Fab>
                         </CardContent>
                     </div>
-                    <CardActions>
-                        <Button onClick={editTask} >
-                            Edit
-                        </Button>
-                    </CardActions>
                 </Card>
             </div>
         </Fragment>
@@ -112,12 +180,12 @@ function TaskCard({ deleteTask, message, users, id , due_date , priority , assig
 }
 
 let mapsToProps = (
-    { users = {}, userList = [] } = {},
+    { users = {}, usersList = [] }={},
     { assigned_to, id } = {}
 ) => {
     let index = users[assigned_to];
     return {
-        userData: userList[index],
+        userData: usersList[index],
         id: id,
     };
 };

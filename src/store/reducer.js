@@ -27,6 +27,7 @@ let reducer = (state=initialState, { type , payload }) => {
             usersList.forEach(({id},index)=>{
                 users[id] = index;
             })
+            console.log({users})
             state={
                 ...state,
                 users: users,

@@ -8,11 +8,11 @@ function DatePickerCustom(props) {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
                 autoOk={true}
-                placeholder={"Pick a date"}
-                value={props.value ? new Date(props.value): ""}
+                placeholder={"Due Date"}
+                value={props.value ? new Date(props.value): null}
                 className="date-picker"
-                defaultValue={""}
-                onChange={(value, date) =>{
+                defaultValue={null}
+                onChange={(value) =>{
                     props.onChange(value);
                 }}
             />
