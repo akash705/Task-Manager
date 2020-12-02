@@ -45,7 +45,10 @@ let reducer = (state=initialState, { type , payload }) => {
         case UPDATE_TASK:{
             let updatedTasks = tasks.map((data)=>{
                 if(data.id === payload.taskid){
-                    return payload;
+                    return {
+                        ...data,
+                        ...payload
+                    };
                 }
                 return data
             })

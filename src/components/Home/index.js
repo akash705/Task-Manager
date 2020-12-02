@@ -64,7 +64,7 @@ function getLayout(tasks) {
             columnClassName="my-masonry-grid_column">
             {tasks.map(
                 ({ message, due_date, priority, assigned_to, id } = {}) => (
-                    <div key={id} className={` margin-top-none-xs margin-bottom-16-xs`}>
+                    <div key={id} className={` margin-top-none-xs margin-bottom-16-xs margin-top-16`}>
                         <div
                             className={
                                 'padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12'
