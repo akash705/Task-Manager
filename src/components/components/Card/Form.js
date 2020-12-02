@@ -205,7 +205,7 @@ function CreateTaskForm(props={}) {
                         type="submit"
                         disabled={loader}
                         className={`width-100 border-none font-family-poppins color-white font-18 font-16-xs padding-left-16 padding-right-16 padding-top-8 padding-bottom-8 margin-top-8 cursor-pointer  border-radius-none ${loader ? 'theme-primary-background-light': 'theme-primary-background'} border-none`}>
-                        Create Task{' '}
+                        { taskEditId ? "Update Task" : "Create Task" }{' '}
                         {loader ? (
                             <i
                                 className={

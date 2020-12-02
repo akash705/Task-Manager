@@ -13,8 +13,6 @@ import Masonry from "react-masonry-css"
 import FilterComponent from '../components/FilterComponent/FilterComponent';
 import moment from "moment";
 
-window.moment = moment;
-
 function notFound() {
     return (
         <div
@@ -194,16 +192,18 @@ function Home({ tasks = [] , isLoading }) {
                             </div>
                         ) : null}
                     </div>
-                    <div
-                        className={
-                            'margin-top-12 margin-bottom-12 text-right margin-top-4-xs margin-bottom-4-xs'
-                        }>
-                        <FilterComponent
-                            applyFilter={applyFilter}
-                            resetFilter={resetFilter}
-                            filterValue={filter}
-                        />
-                    </div>
+                    {tasks && tasks.length ? (
+                        <div
+                            className={
+                                'margin-top-12 margin-bottom-12 text-right margin-top-4-xs margin-bottom-4-xs'
+                            }>
+                            <FilterComponent
+                                applyFilter={applyFilter}
+                                resetFilter={resetFilter}
+                                filterValue={filter}
+                            />
+                        </div>
+                    ) : null}
                     <div>{component}</div>
                 </div>
             </PageWrapper>
