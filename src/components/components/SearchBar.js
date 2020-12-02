@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Search } from "@material-ui/icons";
-import { Button , TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import ResetIcon from "../../resources/svg/search-reset.svg";
 import "../../resources/searchbar.css";
 
@@ -76,7 +76,7 @@ class SearchBar extends Component {
                                     width: "42px",
                                     right: isSmallScreen ? "0px" : "4px",
                                 }}>
-                                <img src={ResetIcon} />
+                                <img src={ResetIcon} alt={"Reset"}/>
                             </span>
                         ) : null}
                     </div>

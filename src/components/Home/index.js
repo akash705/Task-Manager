@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -33,6 +33,7 @@ function notFound() {
                         style={{
                             height: '50px',
                         }}
+                        alt={'Not found'}
                     />
                 </div>
                 <div className={'text-center margin-top-8 font-bold'}>

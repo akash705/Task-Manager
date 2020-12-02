@@ -1,15 +1,9 @@
 import {
     Button,
-    ListItem,
-    ListItemSecondaryAction,
-    ListItemText,
     Menu,
-    MenuItem,
-    Select,
-    Switch,
 } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
-import React, { Fragment, useState } from 'react';
+import React from 'react';
 import FilterForm from './FilterForm';
 
 export default function FilterComponent(props) {

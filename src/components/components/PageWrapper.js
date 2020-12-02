@@ -11,7 +11,7 @@ export default function PageWrapper({
                 top: "50%",
                 transform: "translate(00%,-50%)",
             }}>
-                <img src={Preloader} style={{
+                <img src={Preloader} alt={'loader'} style={{
                     height: "75px",
                 }} />
             </div>

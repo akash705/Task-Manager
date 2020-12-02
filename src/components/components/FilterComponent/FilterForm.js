@@ -1,30 +1,11 @@
 import moment from 'moment';
-import React, { useState , useEffect, useRef} from 'react';
+import React, { useState , useEffect } from 'react';
 import Form from 'react-jsonschema-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { createTask, updateTask } from '../../../store/actionCreators';
 import { CREATE_TASK, UPDATE_TASK } from '../../../store/actions';
 import DatePickerCustom from '../../FormControl/DatePicker';
-
-function initialState(userPreferenceData={}){
-    let {
-        message,
-        due_date,
-        priority,
-        assigned_to
-    } = userPreferenceData;
-
-    let data = {
-        message,
-        due_date,
-        priority,
-        assigned_to,
-    };
-
-    return data;
-}
 
 let initialFormSchema = (usersList=[])=>{
     let userObj={
@@ -89,7 +70,11 @@ function getWidget(){
 function CreateTaskForm(props={}) {
     let {
         usersList,
-        formValue
+        formValue={
+            due_date: '',
+            assigned_to: '',
+            priority: '',
+        }
     } = props;
     const [formData, setFormData] = useState(formValue);
     const [widgets] = useState(()=>getWidget());

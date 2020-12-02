@@ -10,10 +10,10 @@ import DatePickerCustom from '../../FormControl/DatePicker';
 
 function initialState(userPreferenceData={}){
     let {
-        message,
-        due_date,
-        priority,
-        assigned_to
+        message='',
+        due_date='',
+        priority='',
+        assigned_to=''
     } = userPreferenceData;
 
     let data = {
@@ -53,8 +53,8 @@ let initialFormSchema = (usersList=[])=>{
             priority: {
                 type: 'string',
                 title: 'Priority',
-                enum: ['Select a value', '1', '2', '3'],
-                enumNames: ['', 'High', 'Medium', 'Low'],
+                enum: ['', '1', '2', '3'],
+                enumNames: ['Select a value', 'High', 'Medium', 'Low'],
                 default: '',
             },
             assigned_to: {
@@ -129,7 +129,7 @@ function CreateTaskForm(props={}) {
                 return toast(`Task not found !!!`);
             }
         }
-    }, [taskEditId,history,tasks])
+    }, [taskEditId,history])
 
     // did mount
 
@@ -159,14 +159,17 @@ function CreateTaskForm(props={}) {
 
     function onSubmit(form) {
         setLoader(true);
+        let { assigned_to='',priority='' } = form.formData;
         let formData = {
             ...form.formData,
+            assigned_to,
+            priority: priority
         };
         if(form.formData.due_date){
             formData.due_date = moment(form.formData.due_date).format("YYYY-MM-DD HH:mm:ss")
         }
         if(editTaskDetail.current){
-            formData.taskid = taskEditId
+            formData.taskid = taskEditId;
         }
         let fn = editTaskDetail.current ? updateTask : createTask;
         fn(formData,({status , error="Network Error !!!"})=>{
