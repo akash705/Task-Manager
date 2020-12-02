@@ -6,28 +6,42 @@ import {
   BrowserRouter as Router,
   Route
 } from "react-router-dom";
+import { connect } from 'react-redux';
+import { FETCH_ALL_TASKS, FETCH_ALL_USERS } from './store/actions';
+import { fetchAllTasks, fetchAllUsers } from './store/actionCreators';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      hasError: false
+      hasError: false,
+      loader: true
      };
   }
 
+  componentDidMount(){
+    let { fetchAllTasks, fetchAllUsers } = this.props;
+    fetchAllTasks()
+    fetchAllUsers(()=>{
+        this.setState({loader:false});
+    })
+  }
+
   static getDerivedStateFromError(nextProps, prevState) {
-    console.log(nextProps,prevState)
     return {
       hasError: true
     }
   }
 
   componentDidCatch(error, info) {
-    console.log({error,info});
   }
 
   render() {
     return (
       <div>
+        <ToastContainer className={'color-black font-family-poppins'} />
         <Router>
             <Route path={'/'} exact component={(props) => <Home {...props} />} />
             <Route path={'/create'} exact component={(props) => <CreateTask {...props} />} />
@@ -37,4 +51,12 @@ class App extends Component {
   }
 }
 
-export default App;
+
+function dispatchToProps(dispatch){
+  return {
+      fetchAllTasks: (cb)=>dispatch(fetchAllTasks({type:FETCH_ALL_TASKS , cb: cb})),
+      fetchAllUsers: (cb)=>dispatch(fetchAllUsers({type:FETCH_ALL_USERS , cb: cb})),
+  }
+}
+
+export default connect(null,dispatchToProps)(App);

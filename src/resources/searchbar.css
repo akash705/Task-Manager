@@ -1,0 +1,21 @@
+.searchbar {
+    width: 100% !important;
+    padding: 8px 8px 8px 42px;
+    height: 42px !important;
+    border: 1px solid #bbb; }
+.searchbar hr {
+      display: none; 
+}
+.searchbar > div{
+    height: 42px !important;
+}
+.searchbar > div input{
+    padding-left: 32px!important;
+    font-size: 14px;
+    color: #232323!important
+}
+.searchbar > div fieldset{
+    border: 1px solid #bbb !important;
+    padding-left: 40px!important;
+    border-radius: 0px!important;
+}

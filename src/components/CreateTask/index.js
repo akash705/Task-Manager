@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import CreateTaskForm from '../Card/Form';
+import CreateTaskForm from '../components/Card/Form';
 import Header from "../Header";
 import "../../resources/formControl.css";
 

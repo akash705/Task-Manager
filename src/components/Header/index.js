@@ -9,7 +9,7 @@ export default function index({title , showBackButton , showCreateButton}={}) {
         <div>
             <AppBar position="static">
                 <Toolbar>
-                    <div className={`display-flex align-items-center width-100`}>
+                    <div className={`display-flex align-items-center width-100 padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12`}>
                         {showBackButton ? (
                             <Link to={'/'} className={'text-decoration-none color-white margin-top-4'}>
                                 <ArrowLeft
@@ -24,7 +24,7 @@ export default function index({title , showBackButton , showCreateButton}={}) {
                             {title}
                         </span>
                         {showCreateButton ? (
-                            <Link to={'/create'} className={'text-decoration-none color-white margin-top-4 position-absolute right-0'}>
+                            <Link to={'/create'} className={'text-decoration-none color-white margin-top-4 right-0 position-absolute margin-right-8-xs  margin-right-32'}>
                                 <CreateIcon
                                     className={'cursor-pointer margin-right-8 border-radius-circle border-light-grey'}
                                 />

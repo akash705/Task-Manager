@@ -53,11 +53,14 @@ function fetchAllUsers({ cb }={}){
 function createTask({cb, payload}) {
     return async function (dispatch){
         let formData = objectToFormData(payload)
-        let { data: { status = '' } = {} } = await repo.post("create",formData,).catch(err=>err);
+        let { data: { status = '', taskid } = {} } = await repo.post("create",formData,).catch(err=>err);
         if (status && String(status).toLowerCase() === 'success') {
             dispatch({
                 type: CREATE_TASK,
-                payload: payload
+                payload: {
+                    ...payload,
+                    id: taskid
+                }
             })
         }
         if(cb){
@@ -91,6 +94,13 @@ function updateTask({cb, payload}) {
     return async function (dispatch){
         let formData = objectToFormData(payload)
         let { data: { status = '' } = {} } = await repo.post("update",formData,).catch(err=>err);
+        let isSuccess = status && String(status).toLowerCase() === 'success' ; 
+        if(isSuccess){
+            dispatch({
+                type: UPDATE_TASK,
+                payload: payload,
+            });
+        }
         if(cb){
             cb({
                 status: status && String(status).toLowerCase() === 'success' ? true : false 

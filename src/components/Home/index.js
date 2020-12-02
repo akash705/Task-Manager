@@ -1,35 +1,51 @@
-import { Grid , Button } from '@material-ui/core';
-import { useEffect , useState } from 'react';
+import { Grid, Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { fetchAllTasks, fetchAllUsers } from '../../store/actionCreators';
-import { FETCH_ALL_TASKS , FETCH_ALL_USERS } from '../../store/actions';
-import TaskCard from '../Card/TaskCard';
+import { FETCH_ALL_TASKS, FETCH_ALL_USERS } from '../../store/actions';
+import TaskCard from '../components/Card/TaskCard';
+import SearchBar from '../components/SearchBar';
 import Header from '../Header';
+import NotFoundIcon from "../../resources/svg/not-found.svg";
 
-function notFound(){
+function notFound() {
     return (
-        <div style={{
-            position: 'absolute',
-            left: '0px',
-            top: '50%',
-            width: '100%',
-            textAlign: 'center'
-        }}>
+        <div
+            style={{
+                position: 'absolute',
+                left: '0px',
+                top: '50%',
+                width: '100%',
+                textAlign: 'center',
+            }}>
             <div className={`margin-bottom-12 font-16 `}>
-                No Task Found
+                <div className={'width-100 text-center'}>
+                    <img
+                        src={NotFoundIcon}
+                        style={{
+                            height: '50px',
+                        }}
+                    />
+                </div>
+                <div className={'text-center margin-top-8 font-bold'}>
+                    No Task Found
+                </div>
             </div>
-            <Link to={`/create`} className={'text-decoration-none margin-top-8'}>
-                <Button className={'border-none text-decoration-none'} disableRipple={true}>
+            <Link
+                to={`/create`}
+                className={'text-decoration-none margin-top-8'}>
+                <Button
+                    className={'border-none text-decoration-none'}
+                    disableRipple={true}>
                     Add Tasks
                 </Button>
             </Link>
         </div>
-    )
+    );
 }
 
-function getLayout(tasks){
-    console.log(tasks);
+function getLayout(tasks) {
     return (
         <Grid container>
             {tasks.map(
@@ -54,56 +70,74 @@ function getLayout(tasks){
     );
 }
 
+function Home({ tasks = [] }) {
+    const [inputValue, setInputValue] = useState('');
+    const [allTasks, setAllTasks] = useState(tasks);
 
-function Home({
-    tasks=[],
-    fetchAllTasks,
-    fetchAllUsers,
-}) {
-    const [loader, setLoader] = useState(true);
-    // cdm
+    // onUpdate
 
     useEffect(() => {
-        fetchAllTasks()
-        fetchAllUsers(()=>{
-            setLoader(false)
-        })
-    }, [fetchAllTasks, fetchAllUsers]);
+        if (inputValue) {
+            let updatedTasks = tasks.filter(({ message }) =>
+                message.includes(inputValue)
+            );
+            setAllTasks(updatedTasks);
+        } else {
+            setAllTasks(tasks);
+        }
+    }, [tasks, inputValue]);
+
+    // onUpdate
 
     let component = null;
 
-    if(loader )/*!hasFetchedTasks || !hasFetchedUsers */{
-        component =  "Loading ...";
-    }
-    else if(!tasks.length){
-        component =  notFound();
-    }else {
-        component = getLayout(tasks);
+    if (!allTasks.length) {
+        component = notFound();
+    } else {
+        component = <div className={'margin-top-12 '}>
+            {getLayout(allTasks)}
+        </div>;
     }
 
     return (
         <div>
-            <Header title={'Task Manager'} showCreateButton={true}/>
+            <div className={``}>
+                <Header title={'Task Manager'} showCreateButton={true} />
+            </div>
             <div className={'padding-24 padding-16-xs'}>
-                {component}
+                <div>
+                    {tasks ? (
+                        <div className={'padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12'}>
+                            <SearchBar
+                                value={inputValue}
+                                onChange={(value) => setInputValue(value)}
+                                onSubmit={Function.prototype}
+                            />
+                        </div>
+                    ) : null}
+                </div>
+                <div>{component}</div>
+            </div>
+            <div className={"position-fixed bottom-0 right-0 font-12 "}>
+                Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
             </div>
         </div>
     );
 }
 
-function mapsToProps({ tasks,hasFetchedTasks,
-    hasFetchedUsers }) {
+function mapsToProps({ tasks }) {
     return {
-        tasks
+        tasks,
     };
 }
 
-function dispatchToProps(dispatch){
+function dispatchToProps(dispatch) {
     return {
-        fetchAllTasks: (cb)=>dispatch(fetchAllTasks({type:FETCH_ALL_TASKS , cb: cb})),
-        fetchAllUsers: (cb)=>dispatch(fetchAllUsers({type:FETCH_ALL_USERS , cb: cb})),
-    }
+        fetchAllTasks: (cb) =>
+            dispatch(fetchAllTasks({ type: FETCH_ALL_TASKS, cb: cb })),
+        fetchAllUsers: (cb) =>
+            dispatch(fetchAllUsers({ type: FETCH_ALL_USERS, cb: cb })),
+    };
 }
 
-
-export default connect(mapsToProps , dispatchToProps)(Home);
+export default connect(mapsToProps, dispatchToProps)(Home);

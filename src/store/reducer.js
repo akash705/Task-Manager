@@ -1,9 +1,8 @@
 import initialState from './initialState';
-import { CREATE_TASK, DELETE_TASK, FETCH_ALL_TASKS, FETCH_ALL_USERS } from "./actions";
+import { CREATE_TASK, DELETE_TASK, FETCH_ALL_TASKS, FETCH_ALL_USERS, UPDATE_TASK } from "./actions";
 
 
 let reducer = (state=initialState, { type , payload }) => {
-    console.log({type,payload})
     let { tasks=[] } = state;
     switch(type){
         case DELETE_TASK:{
@@ -37,12 +36,23 @@ let reducer = (state=initialState, { type , payload }) => {
         }
         case CREATE_TASK:{
             let updatedTasks = [...tasks,payload];
-            console.log('create task before ----', state);
             state = {
                 ...state,
                 tasks: updatedTasks
             }
-            console.log('create task after ----', state);
+            break;
+        }
+        case UPDATE_TASK:{
+            let updatedTasks = tasks.map((data)=>{
+                if(data.id === payload.taskid){
+                    return payload;
+                }
+                return data
+            })
+            state = {
+                ...state,
+                tasks: updatedTasks
+            }
         }
         default:
             break;

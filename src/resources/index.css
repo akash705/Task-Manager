@@ -37,10 +37,21 @@ body {
     top: 0;
 }
 
+.clearfix:after {
+    content: " ";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both; }
+  
+
 .position-relative {
     position: relative !important;
 }
 
+.position-fixed{
+    position: fixed!important;
+}
 .position-absolute {
     position: absolute !important;
 }
@@ -537,6 +548,10 @@ body {
     fill: #212121 !important;
 }
 
+.font-bold{
+    font-weight: bold !important
+}
+
 .font-8 {
     font-size: 8px !important;
 }
@@ -793,8 +808,15 @@ form .floatingTemplate textarea {
 .align-items-center {
     align-items: center;
 }
+.justify-content-center {
+    justify-content: center;
+}
+
 .color-white{
     color: white!important;
+}
+.color-black{
+    color: #000!important;
 }
 .float-right{
     float: right;
@@ -802,6 +824,11 @@ form .floatingTemplate textarea {
 .border-radius-circle{
     border-radius: 50px
 }
+.border-radius-small {
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px; }
+  
 
 .ribbon {
     position: absolute;
@@ -845,6 +872,12 @@ form .floatingTemplate textarea {
 }
 
 @media screen and (max-width: 767px) {
+    .display-block-xs{
+        display: block;
+    }
+    .display-none-xs{
+        display: none;
+    }
     .padding-32-xs {
         padding: 32px !important;
     }
@@ -1000,6 +1033,9 @@ form .floatingTemplate textarea {
     }
     .margin-bottom-12-xs {
         margin-bottom: 12px !important;
+    }
+    .margin-right-32-xs {
+        margin-right: 32px !important;
     }
     .margin-bottom-4-xs {
         margin-bottom: 4px !important;

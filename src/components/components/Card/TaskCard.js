@@ -1,16 +1,19 @@
-import React, { Fragment } from 'react';
+import React, { Fragment , useState } from 'react';
 import {
     Button,
     Card,
     CardActions,
     CardContent,
 } from '@material-ui/core';
-import Close from '@material-ui/icons/Close';
-import Fab from '@material-ui/core/Fab';
 import { connect } from 'react-redux';
-import { deleteTask as removeTask } from '../../store/actionCreators';
-import moment from "moment";
+import { deleteTask as removeTask } from '../../../store/actionCreators';
 import { withRouter } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import Close from '@material-ui/icons/Close';
+import moment from "moment";
+import Fab from '@material-ui/core/Fab';
+
 
 function getPriorityText(priority){
     let obj = {
@@ -34,10 +37,23 @@ function getPriorityText(priority){
 
 function TaskCard({ deleteTask, message, users, id , due_date , priority , assigned_to , history } = {}) {
     let { text:ribbonText='' , class:ribbonClass }  = getPriorityText(priority);
+    const [loader, setLoader] = useState(false);
     
     function editTask(){
         history.push("/create",{
             id: id
+        })
+    }
+
+    function removeTask(){
+        if(loader){
+            return  toast("Request is in process !!!");
+        }
+        setLoader(true);
+        deleteTask(id,(flag)=>{
+            if(flag){
+                setLoader(false);
+            }
         })
     }
 
@@ -68,7 +84,7 @@ function TaskCard({ deleteTask, message, users, id , due_date , priority , assig
                     <div>
                         <Fab
                             className="close-modal-icon position-absolute box-shadow-none border-light-grey"
-                            onClick={() => deleteTask(id)}>
+                            onClick={removeTask}>
                             <Close />
                         </Fab>
 
@@ -108,7 +124,9 @@ let mapsToProps = (
 
 function dispatchToProps(dispatch) {
     return {
-        deleteTask: (payload) => dispatch(removeTask({payload})),
+        deleteTask(payload){
+            dispatch(removeTask({payload}));
+        } ,
     };
 }
 

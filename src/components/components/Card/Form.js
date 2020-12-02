@@ -3,9 +3,9 @@ import React, { useState , useEffect, useRef} from 'react';
 import Form from 'react-jsonschema-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createTask, updateTask } from '../../store/actionCreators';
-import { CREATE_TASK, UPDATE_TASK } from '../../store/actions';
-import DatePickerCustom from '../FormControl/DatePicker';
+import { createTask, updateTask } from '../../../store/actionCreators';
+import { CREATE_TASK, UPDATE_TASK } from '../../../store/actions';
+import DatePickerCustom from '../../FormControl/DatePicker';
 
 function initialState(userPreferenceData={}){
     let {
