@@ -40,3 +40,33 @@ export function objectToFormData(obj, rootName, ignoreList) {
     return  formData;
       
 }
+
+export function responseExtractor(response={},key){
+    let { data: { status = '', [key]: data = [] , message } = {} }  = response;
+    if(status && String(status).toLowerCase() === 'success'){
+        return { status: true , data }
+    }else if(status && String(status).toLowerCase() === 'failed'){
+        return { status:false, error: message }
+    }else{
+        return { status:false, error:extractError(response , "Unable to connect to server") };
+    }
+
+}
+
+export function extractError(err , defaultMessage){
+    if (
+        err &&
+        ((err.response && err.response.data.error.message) ||
+            err.message)
+    ) {
+            return err.response ? err.response.data.error.message : err.message
+    }else if(err && err.error && err.error.message){
+        return err.error.message;
+    } 
+    else if(err && err.data && (err.data.error || err.data.message)){
+        return err.data.error || err.data.message;
+    }
+    else {
+        return err || defaultMessage ;
+    }
+}

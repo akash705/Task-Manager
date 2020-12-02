@@ -40,7 +40,7 @@ class SearchBar extends Component {
                     }>
                     <div
                         className={
-                            "width-100 margin-right-12 position-relative"
+                            "width-100 position-relative"
                         }>
                         <TextField
                             variant="outlined"

@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { FETCH_ALL_TASKS, FETCH_ALL_USERS } from './store/actions';
 import { fetchAllTasks, fetchAllUsers } from './store/actionCreators';
 import Preloader from "./resources/svg/preloader.svg";
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
@@ -25,8 +25,11 @@ class App extends Component {
   componentDidMount(){
     let { fetchAllTasks, fetchAllUsers } = this.props;
     fetchAllTasks()
-    fetchAllUsers(()=>{
+    fetchAllUsers(({status,error})=>{
         this.setState({loader:false});
+        if(!status){
+          toast(error)
+      }
     })
   }
 

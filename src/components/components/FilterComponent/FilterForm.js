@@ -41,14 +41,9 @@ let initialFormSchema = (usersList=[])=>{
         title: '',
         type: 'object',
         properties: {
-            message: {
-                title: 'Message',
-                type: 'string',
-                placeholder: 'Enter a message',
-            },
             due_date: {
                 type: 'string',
-                title: 'Due Date',
+                title: 'Start Date',
             },
             priority: {
                 type: 'string',
@@ -69,10 +64,6 @@ let initialFormSchema = (usersList=[])=>{
 }
 
 let initialFormUISchema = {
-    message: {
-        classNames: 'template1 margin-bottom-16 ',
-        "ui:widget": "textarea"
-    },
     priority: {
         classNames: 'template1 margin-bottom-16',
     },
@@ -97,43 +88,14 @@ function getWidget(){
 }
 function CreateTaskForm(props={}) {
     let {
-        createTask,
-        updateTask,
         usersList,
-        match:{
-            params:{
-                taskId: taskEditId
-            }={}
-        }={},
-        history={},
-        tasks
+        formValue
     } = props;
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState(formValue);
     const [widgets] = useState(()=>getWidget());
     const [formSchema,setFormSchema] = useState(()=>initialFormSchema(usersList));
     const [formUISchema] = useState(initialFormUISchema);
     const [fields] = useState(() => initialFields(props));
-    const [loader, setLoader] = useState(false);
-    const editTaskDetail = useRef(null)
-
-    // did mount
-    useEffect(() => {
-        if(taskEditId){
-            let oldData = tasks.find(({id})=>String(id) === String(taskEditId));
-            if(oldData){
-                let data = initialState(oldData);
-                editTaskDetail.current = data;
-                setFormData(data);
-            }else {
-                history.replace("/create");
-                return toast(`Task not found !!!`);
-            }
-        }
-    }, [taskEditId,history,tasks])
-
-    // did mount
-
-
 
     useEffect(() => {
         let state = initialFormSchema(usersList);
@@ -146,47 +108,35 @@ function CreateTaskForm(props={}) {
         setFormData(formData);
     }
 
-    function validate(formData, errors) {
-        let { 
-            message,
-        } = formData;
-        let required= "*Required";
-        if(!message){
-            errors.message.addError(required);
-        }
+    function validate(_, errors) {
         return errors;
     }
 
     function onSubmit(form) {
-        setLoader(true);
-        let formData = {
-            ...form.formData,
-        };
+        let { onSubmit } = props;
         if(form.formData.due_date){
             formData.due_date = moment(form.formData.due_date).format("YYYY-MM-DD HH:mm:ss")
         }
-        if(editTaskDetail.current){
-            formData.taskid = taskEditId
-        }
-        let fn = editTaskDetail.current ? updateTask : createTask;
-        fn(formData,({status , error="Network Error !!!"})=>{
-            setLoader(false);
-            if(status){
-                props.history.replace('/');
-            }else {
-                toast(error)
-            }
-        })
+        onSubmit(formData);
         return form;
     }
 
+    function onReset(){
+        let { onReset } = props;
+        setFormData({});
+        onReset({});
+    }
+
     return (
-        <div>
+        <div className={` padding-left-12 padding-right-12`}>
+            <div className={'font-18 font-16-xs margin-bottom-12'}>
+                Filter :
+            </div>
             <Form
                 formData={formData}
                 onChange={onChange}
                 className={
-                    'margin-top-16 margin-bottom-16'
+                    'margin-bottom-16 font-14'
                 }
                 widgets={widgets}
                 schema={formSchema}
@@ -197,19 +147,24 @@ function CreateTaskForm(props={}) {
                 onSubmit={onSubmit}
                 autocomplete={'off'}
                 showErrorList={false}>
-                <div className={'width-100'}>
+                <div className={'width-100 display-flex'}>
+                    <button
+                        type="reset"
+                        className={`width-100  font-family-poppins font-16 font-14-xs cursor-pointer  border-radius-none theme-color-dark border-light-grey`} 
+                        style={{
+                            background: 'white',
+                            minHeight: "40px"
+                        }}
+                        onClick={onReset}>
+                        Reset
+                    </button>
                     <button
                         type="submit"
-                        disabled={loader}
-                        className={`width-100 border-none font-family-poppins color-white font-18 font-16-xs padding-left-16 padding-right-16 padding-top-8 padding-bottom-8 margin-top-8 cursor-pointer  border-radius-none ${loader ? 'theme-primary-background-light': 'theme-primary-background'} border-none`}>
-                        Create Task{' '}
-                        {loader ? (
-                            <i
-                                className={
-                                    'color-white fa fa-spin fa-circle-o-notch font-16 margin-left-8'
-                                }
-                            />
-                        ) : null}
+                        className={`width-100  font-family-poppins color-white font-16 font-14-xs cursor-pointer  border-radius-none theme-primary-background border-none`}
+                        style={{
+                            minHeight: "40px"
+                        }}>
+                        Apply Filter
                     </button>
                 </div>
             </Form>

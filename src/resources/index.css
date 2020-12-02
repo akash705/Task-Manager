@@ -21,6 +21,9 @@ body {
 .theme-color-dark{
     color: #002f6c !important;
 }
+.theme-border-color{
+    border-color: #002f6c !important;
+}
 
 
 /* theme  */
@@ -32,6 +35,12 @@ body {
 
 .text-center {
     text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+.text-left {
+    text-align: left;
 }
 .z-index-high {
     z-index: 999;
@@ -375,6 +384,9 @@ body {
 }
 .margin-right-40 {
     margin-right: 40px;
+}
+.margin-right-64 {
+    margin-right: 64px !important;
 }
 
 .margin-right-8 {
@@ -870,8 +882,17 @@ form .floatingTemplate textarea {
 .color-white{
     color: white!important;
 }
+.color-grey{
+    color: rgba(0, 0, 0, 0.87);
+}
 .color-black{
     color: #000!important;
+}
+.color-red{
+    color: #f4511e!important;
+}
+.color-green{
+    color: #388e3c!important;
 }
 .float-right{
     float: right;
@@ -953,6 +974,9 @@ form .floatingTemplate textarea {
 }
 
 @media screen and (max-width: 767px) {
+    .width-100-xs{
+        width: 100%;
+    }
     .display-block-xs{
         display: block;
     }
@@ -1163,6 +1187,9 @@ form .floatingTemplate textarea {
 
     .font-8-xs {
         font: 8px !important;
+    }
+    .font-12-xs {
+        font-size: 12px !important;
     }
     .font-14-xs {
         font-size: 14px !important;

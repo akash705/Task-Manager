@@ -1,8 +1,6 @@
 import React, { Fragment , useState } from 'react';
 import {
-    Button,
     Card,
-    CardActions,
     CardContent,
 } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -36,7 +34,21 @@ function getPriorityText(priority){
     return obj;
 }
 
-function TaskCard({ deleteTask, message, userData, id , due_date , priority , assigned_to , history } = {}) {
+function getDueDateText(due_date){
+    if(!due_date) return { showDueDate: false };
+    if(moment(due_date).isSame(moment(),'D')){
+        return { showDueDate: true, component: 'Today' , class: 'color-green' }
+    }
+    else if(!moment(due_date).isAfter(moment())){
+        return { showDueDate: true, component: 'Expired' , class: 'color-red' }
+    }
+    return {
+        showDueDate: true,
+        component: `${moment(due_date).diff(moment(), 'day')} days left`,
+    };
+}
+
+function TaskCard({ deleteTask, message, userData, id , due_date , priority ,  history } = {}) {
     let { text:ribbonText='' , class:ribbonClass }  = getPriorityText(priority);
     const [loader, setLoader] = useState(false);
     
@@ -54,12 +66,17 @@ function TaskCard({ deleteTask, message, userData, id , due_date , priority , as
             return  toast("Request is in process !!!");
         }
         setLoader(true);
-        deleteTask(id,(flag)=>{
-            if(flag){
-                setLoader(false);
+        deleteTask(id,({status,error})=>{
+            setLoader(false);
+            if(!status){
+                toast(error);
             }
         })
     }
+
+    let { showDueDate, component, class: componentClass='' } = getDueDateText(
+        due_date
+    );
 
     return (
         <Fragment>
@@ -103,11 +120,15 @@ function TaskCard({ deleteTask, message, userData, id , due_date , priority , as
                         <CardContent className={'padding-none'}>
                             <div
                                 className={`font-18 font-16-xs margin-bottom-4 font-bold padding-left-24 padding-right-24 padding-left-16-xs padding-right-16-xs`}>
-                                {due_date ? (
-                                    <span>
-                                        {moment(due_date).diff(moment(), 'day')}{' '}
-                                        days left
-                                    </span>
+                                {showDueDate ? (
+                                    <div className={`${componentClass} font-16 font-14-xs`}>
+                                        <div>
+                                            { component }
+                                        </div>
+                                        <div className={'font-10 margin-top-12 color-grey'}>
+                                            {moment(due_date).format("MMM Y DD")}
+                                        </div>
+                                    </div>
                                 ) : (
                                     <span>&nbsp;</span>
                                 )}
@@ -192,8 +213,8 @@ let mapsToProps = (
 
 function dispatchToProps(dispatch) {
     return {
-        deleteTask(payload){
-            dispatch(removeTask({payload}));
+        deleteTask(payload,cb){
+            dispatch(removeTask({payload , cb}));
         } ,
     };
 }

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { FETCH_ALL_TASKS, FETCH_ALL_USERS } from '../../store/actions';
 import { fetchAllTasks, fetchAllUsers } from '../../store/actionCreators';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function Index({title , showBackButton , showCreateTaskButton , showReloadButton , fetchAllTasks:fetchTasks , fetchAllUsers:fetchUsers }={}) {
     const [isSpinning, setSpinnerState] = useState(false);
@@ -14,9 +15,12 @@ function Index({title , showBackButton , showCreateTaskButton , showReloadButton
             return 0;
         }
         setSpinnerState(true);
-        fetchTasks()
-        fetchUsers(()=>{
+        fetchUsers()
+        fetchTasks(({status,error="Network Error !!!"}={})=>{
             setSpinnerState(false);
+            if(!status){
+                toast(error)
+            }
         })
     }
     return (
@@ -45,7 +49,7 @@ function Index({title , showBackButton , showCreateTaskButton , showReloadButton
                             </Link>
                         ) : null}
                         {showReloadButton ? (
-                            <Button className={'text-decoration-none color-white  margin-top-4 background-transparent color-white position-absolute right-0 margin-right-32-xs margin-right-40 font-20'}
+                            <Button className={'text-decoration-none color-white  margin-top-4 background-transparent color-white position-absolute right-0 margin-right-32-xs margin-right-64 font-20'}
                             onClick={setSpinner}
                             disableRipple={false}>
                                 <i
