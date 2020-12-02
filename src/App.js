@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { FETCH_ALL_TASKS, FETCH_ALL_USERS } from './store/actions';
 import { fetchAllTasks, fetchAllUsers } from './store/actionCreators';
+import Preloader from "./resources/svg/preloader.svg";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -39,12 +40,13 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <div>
         <ToastContainer className={'color-black font-family-poppins'} />
         <Router>
-            <Route path={'/'} exact component={(props) => <Home {...props} />} />
-            <Route path={'/create'} exact component={(props) => <CreateTask {...props} />} />
+            <Route path={'/'} exact component={(props) => <Home {...props} isLoading={this.state.loader} />} />
+            <Route path={'/create'} exact component={(props) => <CreateTask {...props} isLoading={this.state.loader} />} />
         </Router>
       </div>
     );

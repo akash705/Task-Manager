@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { fetchAllTasks, fetchAllUsers } from '../../store/actionCreators';
 import { FETCH_ALL_TASKS, FETCH_ALL_USERS } from '../../store/actions';
 import TaskCard from '../components/Card/TaskCard';
+import PageWrapper from '../components/PageWrapper';
 import SearchBar from '../components/SearchBar';
 import Header from '../Header';
 import NotFoundIcon from "../../resources/svg/not-found.svg";
@@ -70,7 +71,7 @@ function getLayout(tasks) {
     );
 }
 
-function Home({ tasks = [] }) {
+function Home({ tasks = [] , isLoading }) {
     const [inputValue, setInputValue] = useState('');
     const [allTasks, setAllTasks] = useState(tasks);
 
@@ -100,28 +101,30 @@ function Home({ tasks = [] }) {
     }
 
     return (
-        <div>
-            <div className={``}>
-                <Header title={'Task Manager'} showCreateButton={true} />
-            </div>
-            <div className={'padding-24 padding-16-xs'}>
-                <div>
-                    {tasks ? (
-                        <div className={'padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12'}>
-                            <SearchBar
-                                value={inputValue}
-                                onChange={(value) => setInputValue(value)}
-                                onSubmit={Function.prototype}
-                            />
-                        </div>
-                    ) : null}
+            <div>
+                <div className={``}>
+                    <Header title={'Task Manager'} showCreateButton={!isLoading} />
                 </div>
-                <div>{component}</div>
+                <PageWrapper showLoader={isLoading}>
+                    <div className={'padding-24 padding-16-xs'}>
+                        <div>
+                            {tasks ? (
+                                <div className={'padding-left-8-xs padding-right-8-xs padding-left-12 padding-right-12'}>
+                                    <SearchBar
+                                        value={inputValue}
+                                        onChange={(value) => setInputValue(value)}
+                                        onSubmit={Function.prototype}
+                                    />
+                                </div>
+                            ) : null}
+                        </div>
+                        <div>{component}</div>
+                    </div>
+                </PageWrapper>  
+                <div className={"position-fixed bottom-0 right-0 font-12 "}>
+                    Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+                </div>
             </div>
-            <div className={"position-fixed bottom-0 right-0 font-12 "}>
-                Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
-            </div>
-        </div>
     );
 }
 
