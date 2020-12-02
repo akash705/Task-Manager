@@ -43,7 +43,7 @@ let initialFormSchema = (usersList=[])=>{
         properties: {
             due_date: {
                 type: 'string',
-                title: 'Start Date',
+                title: 'Filter Date',
             },
             priority: {
                 type: 'string',

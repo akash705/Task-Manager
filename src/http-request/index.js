@@ -50,4 +50,4 @@ class httpRequest {
     }
 }
 
-module.exports = httpRequest;
+export default httpRequest;
